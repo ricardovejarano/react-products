@@ -12,15 +12,16 @@ import {
 import Home from './components/home/home';
 // Redux
 import { Provider } from 'react-redux';
+import store from './redux/store';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <Router>
       <Route exact path='/' component={Login} />
       <Route path='/login' component={App} />
       <Route path='/home' component={Home} />
     </Router>
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );
 
