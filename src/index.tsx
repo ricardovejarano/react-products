@@ -9,12 +9,14 @@ import {
   BrowserRouter as Router,
   Route
 } from "react-router-dom";
+import Home from './pages/home/home';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Route exact path='/login' component={App} />
       <Route exact path='/' component={Login} />
+      <Route path='/login' component={App} />
+      <Route path='/home' component={Home} />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
