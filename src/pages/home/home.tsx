@@ -4,11 +4,13 @@ import CardCategory, { ICategory, IProductResponse } from '../../components/Card
 import { getProducts } from '../../redux/actions/products.actions';
 import { Container, Row, Col, Navbar, NavbarText, InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
+import Product from '../../components/Product/product.component';
 
 function Home(props: any) {
-
+    const initialProductsValue: IProductResponse[] = [];
     const [user, setUser] = useState({});
     const [search, setSearch] = useState('');
+    const [searchedProducts, setSearchedProducts] = useState(initialProductsValue);
 
     const { dispatch,
         categories: {
@@ -28,17 +30,17 @@ function Home(props: any) {
     const filterProducts = (query: string) => {
         let allProducts: any[] = [];
         categories.forEach((category: ICategory) => {
-            console.log(category.products?.length)
             if (category.products?.length !== 0) {
                 allProducts.push(category.products);
             };
         });
         const products: IProductResponse[] = allProducts.flat()
-        const filteredProducts = products.filter((product: IProductResponse) => {
-            console.log(product.name.indexOf(query) !== -1);
+        const filteredProducts: IProductResponse[] = products.filter((product: IProductResponse) => {
             return product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-        })
-        console.log(filteredProducts);
+        });
+
+        setSearchedProducts(filteredProducts);
+        if(query === '') setSearchedProducts([]);
     }
 
 
@@ -57,19 +59,36 @@ function Home(props: any) {
                     onChange={handleSearchInput}
                     placeholder="search" />
             </InputGroup>
-            <Container >
-                <Row>
-                    {
-                        categories.map((val: any, index: any) => {
-                            return (
-                                <Col key={index} xs="4">
-                                    <CardCategory category={val} />
-                                </Col>
-                            );
-                        })
-                    }
-                </Row>
+
+            {/* Result Search */}
+            <Container>
             </Container>
+            {
+                searchedProducts.map((product: IProductResponse, index: number) => {
+                    return (
+                        <div key={index}>
+                            <Product product={product} />
+                        </div>
+                    )
+                })
+            }
+            {/* Main Search */}
+            {console.log(searchedProducts)}
+            { searchedProducts.length === 0 ?
+                <Container >
+                    <Row>
+                        {
+                            categories.map((val: any, index: any) => {
+                                return (
+                                    <Col key={index} xs="6">
+                                        <CardCategory category={val} />
+                                    </Col>
+                                );
+                            })
+                        }
+                    </Row>
+                </Container> : null
+            }
         </div>
     );
 }
