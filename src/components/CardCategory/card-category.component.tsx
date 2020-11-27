@@ -1,7 +1,7 @@
 import React from 'react';
 import DetailProduct from '../DetailProduct/detail-product.component';
 
-interface ICategory {
+export interface ICategory {
     _id: string;
     idUser: string;
     name: string;
@@ -20,7 +20,6 @@ export interface IProductResponse {
 
 function CardCategory(props: any) {
 
-    console.log(props.category);
     const category: ICategory = props.category;
 
 
