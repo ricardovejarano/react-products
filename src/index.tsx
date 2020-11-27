@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
-import Login from './components/login/login.page'
+import Login from './pages/login/login.page'
 import reportWebVitals from './reportWebVitals';
 import {
   BrowserRouter as Router,
   Route
 } from "react-router-dom";
-import Home from './components/home/home';
+import Home from './pages/home/home';
 // Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
