@@ -74,18 +74,23 @@ function Home(props: any) {
                     placeholder="search" />
             </InputGroup>
 
+            <Container>
+                <Button>Create Category</Button>
+            </Container>
+
             {/* Result Search */}
             <Container>
+                {
+                    searchedProducts.map((product: IProductResponse, index: number) => {
+                        return (
+                            <div key={index}>
+                                <Product product={product} />
+                            </div>
+                        )
+                    })
+                }
             </Container>
-            {
-                searchedProducts.map((product: IProductResponse, index: number) => {
-                    return (
-                        <div key={index}>
-                            <Product product={product} />
-                        </div>
-                    )
-                })
-            }
+
             {/* Main Search */}
             {console.log(searchedProducts)}
             { searchedProducts.length === 0 ?
