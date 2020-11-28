@@ -36,7 +36,7 @@ function DetailProduct(props: any) {
                 <button onClick={toggle}>Edit</button>
                 <button onClick={() => requestDelete(product._id)} >Delete</button>
             </div>
-            <ModalProduct modal={modal} toggle={toggle} />
+            <ModalProduct product={product} modal={modal} toggle={toggle} />
         </div>
     );
 }
