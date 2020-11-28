@@ -95,7 +95,7 @@ function Home(props: any) {
                             categories.map((val: any, index: any) => {
                                 return (
                                     <Col key={index} xs="6">
-                                        <CardCategory dispatch={dispatch}  category={val} />
+                                        <CardCategory dispatch={dispatch} category={val} />
                                     </Col>
                                 );
                             })
