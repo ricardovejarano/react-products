@@ -22,7 +22,6 @@ function DetailProduct(props: any) {
 
     const requestDelete = (idProduct: string) => {
         const userInfo = JSON.parse(sessionStorage.getItem('userInfo') || '');
-        console.log(idProduct, userInfo._id);
         props.dispatch(deleteProduct(idProduct, userInfo._id));
     }
 
@@ -36,7 +35,7 @@ function DetailProduct(props: any) {
                 <button onClick={toggle}>Edit</button>
                 <button onClick={() => requestDelete(product._id)} >Delete</button>
             </div>
-            <ModalProduct product={product} modal={modal} toggle={toggle} />
+            <ModalProduct dispatch={props.dispatch} product={product} modal={modal} toggle={toggle} />
         </div>
     );
 }

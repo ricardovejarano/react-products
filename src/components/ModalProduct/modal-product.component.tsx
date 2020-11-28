@@ -1,44 +1,45 @@
 import React, { useState } from 'react';
 import { ModalHeader, Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { IProductResponse } from '../DetailProduct/detail-product.component';
+import { editProduct } from '../../redux/actions/products.actions';
 
 function ModalProduct(props: any) {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
     const product: IProductResponse = props.product;
 
-    const handleEmail = (e: any) => {
-        setEmail(e.target.value);
-    }
+    const [name, setName] = useState(product.name)
+    const [price, setPrice] = useState(product.price)
+    const [description, setdescription] = useState(product.description)
+    const [stock, setStock] = useState(product.disStock)
 
-    const handlePassword = (e: any) => {
-        setPassword(e.target.value);
-    }
 
     const updateProduct = (value: string | number, code: string) => {
-        console.log(value);
         switch (code) {
             case 'name':
                 product.name = value as string;
+                setName(product.name);
                 break;
             case 'price':
                 product.price = value as number;
+                setPrice(product.price);
                 break;
             case 'description':
                 product.description = value as string;
+                setdescription(product.description);
                 break;
             case 'stock':
                 product.disStock = value as number;
+                setStock(product.disStock);
                 break;
             default:
                 break;
         }
     }
 
-    const requestEdit = (product: IProductResponse) => {
-        console.log(product);
+    const requestEdit = async (product: IProductResponse) => {
+        const idUser = JSON.parse(sessionStorage.getItem('userInfo') || '')._id;
+        await props.dispatch(editProduct(product, idUser));
+        props.toggle();
     }
 
     return (
@@ -48,26 +49,28 @@ function ModalProduct(props: any) {
                 <form>
                     <div className="form-group">
                         <label htmlFor="nameInput">Name</label>
-                        <input onChange={(event) => updateProduct(event.target.value, 'name')} type="email" className="form-control" id="nameInput" placeholder="Enter name" />
+                        <input onChange={(event) => updateProduct(event.target.value, 'name')} value={name}
+                            type="email" className="form-control" id="nameInput" placeholder="Enter name" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="priceInput">Price</label>
-                        <input onChange={(event) => updateProduct(event.target.value, 'price')} type="number" className="form-control" id="passwordIpriceInputnput" placeholder="Enter price" />
+                        <input onChange={(event) => updateProduct(event.target.value, 'price')} value={price}
+                            type="number" className="form-control" id="passwordIpriceInputnput" placeholder="Enter price" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="descriptionInput">Description</label>
-                        <input onChange={(event) => updateProduct(event.target.value, 'description')} type="email" className="form-control" id="descriptionInput" placeholder="Enter description" />
+                        <input onChange={(event) => updateProduct(event.target.value, 'description')} value={description}
+                            type="email" className="form-control" id="descriptionInput" placeholder="Enter description" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="stockInput">Stock</label>
-                        <input onChange={(event) => updateProduct(event.target.value, 'stock')} type="password" className="form-control" id="stockInput" placeholder="Enter stock" />
+                        <input onChange={(event) => updateProduct(event.target.value, 'stock')} value={stock}
+                            type="number" className="form-control" id="stockInput" placeholder="Enter stock" />
                     </div>
-                    <button type="button" onClick={() => requestEdit(product)} className="btn btn-primary mr-1">Edit</button>
-                    <button type="button" onClick={props.toggle} className="btn btn-primary ml-1">Cancel</button>
                 </form>
             </ModalBody>
             <ModalFooter>
-                <Button color="primary" onClick={props.toggle}>Do Something</Button>{' '}
+                <Button color="primary"  onClick={() => requestEdit(product)}>Edit</Button>{' '}
                 <Button color="secondary" onClick={props.toggle}>Cancel</Button>
             </ModalFooter>
         </Modal>
