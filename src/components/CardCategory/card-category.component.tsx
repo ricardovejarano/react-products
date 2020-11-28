@@ -22,7 +22,6 @@ function CardCategory(props: any) {
 
     const category: ICategory = props.category;
 
-
     return (
         <div className="container">
             <div className="card my-3 mx-3" >
@@ -35,7 +34,7 @@ function CardCategory(props: any) {
                         category.products?.map((val: IProductResponse, index: any) => {
                             return (
                                 <div key={index}>
-                                    <DetailProduct product={val}/>
+                                    <DetailProduct dispatch={props.dispatch}  product={val}/>
                                 </div>
                             );
                         })

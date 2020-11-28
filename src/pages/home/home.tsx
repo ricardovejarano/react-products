@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import CardCategory, { ICategory, IProductResponse } from '../../components/CardCategory/card-category.component';
 import { getProducts } from '../../redux/actions/products.actions';
-import { Container, Row, Col, Navbar, NavbarText, InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap';
+import { Container, Row, Col, Navbar, NavbarText, InputGroup, InputGroupAddon, Input, InputGroupText, Button } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import Product from '../../components/Product/product.component';
+import { useHistory } from "react-router-dom";
 
 function Home(props: any) {
+    const userStart: any = {};
     const initialProductsValue: IProductResponse[] = [];
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(userStart);
     const [search, setSearch] = useState('');
     const [searchedProducts, setSearchedProducts] = useState(initialProductsValue);
+
+    const history = useHistory();
 
     const { dispatch,
         categories: {
@@ -18,8 +22,17 @@ function Home(props: any) {
         }
     } = props;
 
+    const logout = (_: any) => {
+        sessionStorage.clear();
+        history.goBack();
+    }
+
+    const userInfo = JSON.parse(sessionStorage.getItem('userInfo') || '');
+
     useEffect(() => {
-        categories.length === 0 && dispatch(getProducts('5fbeda5dc8f97c045b9b4120'));
+        if (sessionStorage.getItem('loggedIn') !== 'true') history.push('/');
+        setUser(userInfo);
+        categories.length === 0 && dispatch(getProducts(userInfo._id));
     }, [categories]);
 
     const handleSearchInput = (e: any) => {
@@ -40,14 +53,15 @@ function Home(props: any) {
         });
 
         setSearchedProducts(filteredProducts);
-        if(query === '') setSearchedProducts([]);
+        if (query === '') setSearchedProducts([]);
     }
 
 
     return (
         <div>
             <Navbar color="light" light expand="md">
-                <NavbarText>Simple Text</NavbarText>
+                <Button onClick={logout}>Logount</Button>
+                <h3>Hello {user.name}</h3>
             </Navbar>
             <InputGroup>
                 <InputGroupAddon addonType="prepend">
@@ -81,7 +95,7 @@ function Home(props: any) {
                             categories.map((val: any, index: any) => {
                                 return (
                                     <Col key={index} xs="6">
-                                        <CardCategory category={val} />
+                                        <CardCategory dispatch={dispatch}  category={val} />
                                     </Col>
                                 );
                             })
