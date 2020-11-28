@@ -60,7 +60,7 @@ function Home(props: any) {
     return (
         <div>
             <Navbar color="light" light expand="md">
-                <Button onClick={logout}>Logount</Button>
+                <Button onClick={logout}>Logout</Button>
                 <h3>Hello {user.name}</h3>
             </Navbar>
             <InputGroup>

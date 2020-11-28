@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { ModalHeader, Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { IProductResponse } from '../DetailProduct/detail-product.component';
-import { editProduct } from '../../redux/actions/products.actions';
+import { editProduct, createProduct } from '../../redux/actions/products.actions';
 
 function ModalProduct(props: any) {
 
     const product: IProductResponse = props.product;
+    const create: boolean = props.create ? true : false;
 
     const [name, setName] = useState(product.name)
     const [price, setPrice] = useState(product.price)
     const [description, setdescription] = useState(product.description)
     const [stock, setStock] = useState(product.disStock)
 
+    const idUser = JSON.parse(sessionStorage.getItem('userInfo') || '')._id;
 
     const updateProduct = (value: string | number, code: string) => {
         switch (code) {
@@ -37,8 +39,12 @@ function ModalProduct(props: any) {
     }
 
     const requestEdit = async (product: IProductResponse) => {
-        const idUser = JSON.parse(sessionStorage.getItem('userInfo') || '')._id;
         await props.dispatch(editProduct(product, idUser));
+        props.toggle();
+    }
+
+    const requestCreate = async (product: IProductResponse) => {
+        await props.dispatch(createProduct(product, idUser));
         props.toggle();
     }
 
@@ -70,7 +76,11 @@ function ModalProduct(props: any) {
                 </form>
             </ModalBody>
             <ModalFooter>
-                <Button color="primary"  onClick={() => requestEdit(product)}>Edit</Button>{' '}
+                <Button color="primary"  onClick={() => 
+                    !create ? 
+                        requestEdit(product):
+                        requestCreate(product)}
+                >{!create ? 'Edit' : 'Create'}</Button>{' '}
                 <Button color="secondary" onClick={props.toggle}>Cancel</Button>
             </ModalFooter>
         </Modal>
