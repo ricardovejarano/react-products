@@ -7,6 +7,8 @@ function ModalRegister(props: any) {
     return (
         <Modal isOpen={props.modal} toggle={props.toggle}>
             <ModalHeader toggle={props.toggle}>Modal title</ModalHeader>
+            
+
         </Modal>
     );
 }
