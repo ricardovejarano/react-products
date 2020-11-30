@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DetailProduct from '../DetailProduct/detail-product.component';
+import ModalCategory from '../ModalCategory/modal-category.component';
 import ModalProduct from '../ModalProduct/modal-product.component';
 
 export interface ICategory {
@@ -34,7 +35,11 @@ function CardCategory(props: any) {
 
     const [modal, setModal] = useState(false);
 
+    const [modal1, setModal1] = useState(false);
+
     const toggle = () => setModal(!modal);
+
+    const toggle1 = () => setModal1(!modal1);
 
     return (
         <div className="container">
@@ -43,6 +48,13 @@ function CardCategory(props: any) {
                     <h5 className="card-title">{category.name}</h5>
                     <p className="card-text">{category.description}</p>
                     <button onClick={toggle}>Create Product</button>
+                    <button onClick={toggle1}>Edit Category</button>
+                    <ModalCategory
+                    dispatch={props.dispatch}
+                    category={category}
+                    modal={modal1}
+                    toggle={toggle1}
+                    create={false} />
                 </div>
                 <ul className="list-group list-group-flush">
                     {

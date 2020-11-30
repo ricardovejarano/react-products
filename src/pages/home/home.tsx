@@ -6,6 +6,7 @@ import { Container, Row, Col, Navbar, NavbarText, InputGroup, InputGroupAddon, I
 import { FaSearch } from 'react-icons/fa';
 import Product from '../../components/Product/product.component';
 import { useHistory } from "react-router-dom";
+import ModalCategory from '../../components/ModalCategory/modal-category.component';
 
 function Home(props: any) {
     const userStart: any = {};
@@ -13,7 +14,12 @@ function Home(props: any) {
     const [user, setUser] = useState(userStart);
     const [search, setSearch] = useState('');
     const [searchedProducts, setSearchedProducts] = useState(initialProductsValue);
-
+    const category: ICategory = {
+        _id: '',
+        idUser: '',
+        name: '',
+        description: ''
+    }
     const history = useHistory();
 
     const { dispatch,
@@ -55,7 +61,9 @@ function Home(props: any) {
         setSearchedProducts(filteredProducts);
         if (query === '') setSearchedProducts([]);
     }
+    const [modal, setModal] = useState(false);
 
+    const toggle = () => setModal(!modal);
 
     return (
         <div>
@@ -75,7 +83,13 @@ function Home(props: any) {
             </InputGroup>
 
             <Container>
-                <Button>Create Category</Button>
+                <Button onClick={toggle}>Create Category</Button>
+                <ModalCategory
+                    dispatch={props.dispatch}
+                    category={category}
+                    modal={modal}
+                    toggle={toggle}
+                    create={true} />
             </Container>
 
             {/* Result Search */}

@@ -4,6 +4,7 @@ import './login.css';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { API_USERS_URL } from '../../utils/constants';
+import ModalRegister from '../../components/ModalRegister/modal-register.componet';
 
 function Login() {
 
@@ -45,7 +46,9 @@ function Login() {
                 throw new Error(error);
             });
     }
+    const [modal, setModal] = useState(false);
 
+    const toggle = () => setModal(!modal);
     return (
         <div className="App">
             <header className="App-header">
@@ -62,10 +65,13 @@ function Login() {
                                 <input onChange={handlePassword} type="password" className="form-control" id="passwordInput" placeholder="Enter password" />
                             </div>
                             <button type="button" onClick={() => requestLogin(email, password)} className="btn btn-primary mr-1">Login</button>
-                            <button type="button" className="btn btn-primary ml-1">Register</button>
+                            <button type="button" onClick ={toggle} className="btn btn-primary ml-1">Register</button>
                         </form>
                     </div>
                 </div>
+                <ModalRegister
+                modal={modal} 
+                toggle={toggle}/>
             </header>
         </div>
     );
