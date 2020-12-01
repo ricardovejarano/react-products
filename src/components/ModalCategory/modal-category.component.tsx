@@ -32,7 +32,7 @@ function ModalCategory(props: any) {
     }
 
     const requestEdit = async (category: ICategory) => {
-        await props.dispatch(editCategory(category, idUser));
+        await props.dispatch(editCategory(category));
         props.toggle();
     }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import CardCategory, { ICategory, IProductResponse } from '../../components/CardCategory/card-category.component';
-import { getProducts } from '../../redux/actions/products.actions';
+import { deleteProduct, getProducts } from '../../redux/actions/products.actions';
 import { Container, Row, Col, Navbar, NavbarText, InputGroup, InputGroupAddon, Input, InputGroupText, Button } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import Product from '../../components/Product/product.component';
@@ -57,6 +57,10 @@ function Home(props: any) {
         const filteredProducts: IProductResponse[] = products.filter((product: IProductResponse) => {
             return product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
         });
+        const requestDelete = (idCategory: string) => {
+            const userInfo = JSON.parse(sessionStorage.getItem('userInfo') || '');
+            props.dispatch(deleteProduct(idCategory, userInfo._id));
+        }
 
         setSearchedProducts(filteredProducts);
         if (query === '') setSearchedProducts([]);
@@ -64,7 +68,7 @@ function Home(props: any) {
     const [modal, setModal] = useState(false);
 
     const toggle = () => setModal(!modal);
-
+   
     return (
         <div>
             <Navbar color="light" light expand="md">
@@ -90,6 +94,10 @@ function Home(props: any) {
                     modal={modal}
                     toggle={toggle}
                     create={true} />
+            </Container>
+            <Container>
+        
+                
             </Container>
 
             {/* Result Search */}

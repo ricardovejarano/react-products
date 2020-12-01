@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { deleteProduct } from '../../redux/actions/products.actions';
 import DetailProduct from '../DetailProduct/detail-product.component';
 import ModalCategory from '../ModalCategory/modal-category.component';
 import ModalProduct from '../ModalProduct/modal-product.component';
@@ -32,7 +33,7 @@ function CardCategory(props: any) {
         disStock: 0,
         idCategory: category._id
     }
-
+ 
     const [modal, setModal] = useState(false);
 
     const [modal1, setModal1] = useState(false);
